@@ -9,7 +9,7 @@ export default function ForgotPassword() {
       <View style={styles.innerContainer}>
         <Image
           style={styles.logo}
-          source={require("../assets/grocee_logo.png")}
+          source={require("../assets/logo.png")}
         />
         <Text style={styles.label}>Email</Text>
         <TextInput style={styles.input} placeholder="Enter email" />
@@ -38,8 +38,8 @@ const styles = StyleSheet.create({
 
   logo: {
     alignSelf: "center",
-    width: 180,
-    height: 50,
+    width: 100,
+    height: 100,
   },
 
   label: {

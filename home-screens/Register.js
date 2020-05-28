@@ -26,7 +26,7 @@ export default function Register({navigation}) {
       <View style={styles.innerContainer}>
         <Image
           style={styles.logo}
-          source={require("../assets/grocee_logo.png")}
+          source={require("../assets/logo.png")}
         />
         <Text style={styles.label}>Name</Text>
         <TextInput style={styles.input} value={user.name} onChangeText={(val) => setUser({...user, name:val})} placeholder="Enter name" />
@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
 
   logo: {
     alignSelf: "center",
-    width: 180,
-    height: 50,
+    width: 100,
+    height: 100,
   },
 
   label: {
