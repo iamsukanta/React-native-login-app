@@ -2,29 +2,16 @@ import React, { useContext } from "react";
 import {
   StyleSheet,
   Text,
-  TouchableOpacity,
-  View,
-  Image,
-  Button,
-  TextInput,
+  View
 } from "react-native";
 import { AuthContext } from '../context/AuthContext';
-import AsyncStorage from "@react-native-community/async-storage";
 
 export default function Dashboard({ navigation }) {
-  const { logoutApp, user } = useContext(AuthContext);
-  const logout = () => {
-    let keys = ['token', 'user'];
-    AsyncStorage.multiRemove(keys, (err) => {
-      logoutApp();
-      navigation.navigate('login');
-    });
-  }
+  const { user } = useContext(AuthContext);
   return (
     <View style={styles.container}>
-      <Text>Dashboard</Text>
+      <Text style={styles.title}>Dashboard</Text>
       <Text>Welcome { user.name }</Text>
-      <Button onPress={logout} title="Log Out" />
     </View>
   );
 }
@@ -36,4 +23,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold'
+  }
 });

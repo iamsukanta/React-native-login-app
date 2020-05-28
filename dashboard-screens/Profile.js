@@ -1,4 +1,3 @@
-import React from "react";
 import {
   StyleSheet,
   Text,
@@ -8,11 +7,16 @@ import {
   Button,
   TextInput,
 } from "react-native";
+import React, { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 export default function Profile({ navigation }) {
+  const { user } = useContext(AuthContext);
   return (
     <View style={styles.container}>
-      <Text>Profile</Text>
+      <Text style={ styles.title }>Profile</Text>
+      <Text>Name: { user.name } </Text>
+      <Text>Email: { user.email } </Text>
     </View>
   );
 }
@@ -24,4 +28,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold'
+  }
 });
