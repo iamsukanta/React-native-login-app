@@ -9,15 +9,22 @@ import {
   TextInput,
 } from "react-native";
 import { AuthContext } from '../context/AuthContext';
+import AsyncStorage from "@react-native-community/async-storage";
 
 export default function Dashboard({ navigation }) {
-  // console.log(useContext(AuthContext));
-  const { isAuthenticated } = useContext(AuthContext);
-  // static contextType = AuthContext;
-  // console.log(this.context, "ddddfsd");
+  const { logoutApp, user } = useContext(AuthContext);
+  const logout = () => {
+    let keys = ['token', 'user'];
+    AsyncStorage.multiRemove(keys, (err) => {
+      logoutApp();
+      navigation.navigate('login');
+    });
+  }
   return (
     <View style={styles.container}>
       <Text>Dashboard</Text>
+      <Text>Welcome { user.name }</Text>
+      <Button onPress={logout} title="Log Out" />
     </View>
   );
 }

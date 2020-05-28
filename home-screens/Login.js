@@ -1,9 +1,13 @@
-import React,{ useContext } from 'react';
+import React,{ useContext, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity,  View, Image, Button, TextInput } from 'react-native';
 import { AuthContext } from "../context/AuthContext";
+import axios from 'axios';
+// import ngrok from 'ngrok';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default function Login({ navigation }) {
-  const { toggleIsAuthenticated } = useContext(AuthContext);
+  const [user, setUser] = useState({ email: '', password: '' })
+  const { toggleIsAuthenticated, loginApp, logoutApp } = useContext(AuthContext);
 
   const gotoRegister = () => {
     navigation.navigate("Register");
@@ -12,6 +16,25 @@ export default function Login({ navigation }) {
   const gotoForgotPassword = () => {
     navigation.navigate("ForgotPassword");
   };
+
+  const loginUser = async () => {
+    // const ngrok = require('ngrok');
+    // const url = await ngrok.connect(3000);
+    axios
+      .post(`http://192.168.0.113:3000/api/v1/users/login/`, user)
+      .then(async (res) => {
+        try {
+          await AsyncStorage.setItem("token", res.data.token);
+          await AsyncStorage.setItem("user", JSON.stringify(res.data.user));
+          loginApp(res.data.token, res.data.user);
+        } catch (e) {
+          console.log(e);
+        }
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  }
 
   return (
     <View style={styles.container}>
@@ -23,6 +46,8 @@ export default function Login({ navigation }) {
         <Text style={styles.label}>Email</Text>
         <TextInput
           style={styles.input}
+          value={user.email}
+          onChangeText={(val) => setUser({...user, email:val})}
           placeholder="Enter email"
         />
 
@@ -30,9 +55,12 @@ export default function Login({ navigation }) {
         <TextInput
           style={styles.input}
           placeholder="Enter password"
+          value={user.password}
+          secureTextEntry={true}
+          onChangeText={(val) => setUser({ ...user, password: val })}
         />
 
-        <Button style={styles.loginButton} onPress={toggleIsAuthenticated} title="Log In" />
+        <Button style={styles.loginButton} onPress={loginUser} title="Log In" />
 
         <Text style={styles.textStyle}>
           New to Grocee.xyz? Please{" "}
